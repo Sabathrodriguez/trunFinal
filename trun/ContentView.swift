@@ -22,63 +22,63 @@ struct ContentView: View {
                 Map()
                     .edgesIgnoringSafeArea(.all)
                     .sheet(isPresented: $showSheet, content: {
-                        HStack {
-                            Text("this is the stack")
-                        }.presentationDetents([.medium])
+                        VStack {
+                            HStack {
+                                HStack {
+                                    Spacer()
+                                    Button(action: {
+                                        print("search clicked")
+                                        
+                                    }) {
+                                        Image(systemName: "magnifyingglass.circle.fill")
+                                            .resizable()
+                                            .foregroundColor(Color.gray)
+                                            .frame(width: 55, height: 55)
+                                            .foregroundStyle(.gray)
+                                        //                                .border(Color.gray, width: 1)
+                                        //                                .padding()
+                                    }
+                                    Spacer()
+                                    if let selectedRun {
+                                        let twoDecimalPlaceRun = String(format: "%.2f", runTypeDict[selectedRun]!)
+                                        let twoDecimalPlaceRunArray = twoDecimalPlaceRun.split(separator: ".")
+                                        Text("Running at \(twoDecimalPlaceRunArray[0]):\(twoDecimalPlaceRunArray[1])/mile")
+                                            .font(.title2)
+                                            .foregroundColor(Color.black)
+                                            .bold()
+                                    } else {
+                                        Text("Select a run type")
+                                    }
+                                    
+                                    Spacer()
+                                    Button(action: {
+                                        print("location clicked")
+                                    }) {
+                                        Image(systemName: "location.circle.fill")
+                                            .resizable()
+                                            .frame(width: 55, height: 55)
+                                            .foregroundColor(Color.blue)
+                                        //                                .padding()
+                                        //                                .border(Color.blue, width: 1)
+                                    }
+                                    Spacer()
+                                }
+                            }
+                            List {
+                                Picker("Info", selection: $selectedRun) {
+                                    Text("Current Pace").tag(Pace.Current)
+                                    Text("Current Mile Pace").tag(Pace.CurrentMile)
+                                    Text("Average Run Pace").tag(Pace.Average)
+                                }
+                            }
+                        }.presentationDetents([.height(300)])
                     })
                 VStack(alignment: .center) {
                     Spacer(minLength: 550)
-                    Image(systemName: "line.diagonal")
-                    HStack {
-                        Spacer()
-                        Button(action: {
-                            print("search clicked")
-                            
-                        }) {
-                            Image(systemName: "magnifyingglass.circle.fill")
-                                .resizable()
-                                .foregroundColor(Color.gray)
-                                .frame(width: 55, height: 55)
-                                .foregroundStyle(.gray)
-//                                .border(Color.gray, width: 1)
-//                                .padding()
-                        }
-                        Spacer()
-                        if let selectedRun {
-                            let twoDecimalPlaceRun = String(format: "%.2f", runTypeDict[selectedRun]!)
-                            let twoDecimalPlaceRunArray = twoDecimalPlaceRun.split(separator: ".")
-                            Text("Running at \(twoDecimalPlaceRunArray[0]):\(twoDecimalPlaceRunArray[1])/mile")
-                                .font(.title2)
-                                .foregroundColor(Color.black)
-                                .bold()
-                        } else {
-                            Text("Select a run type")
-                        }
-                       
-                        Spacer()
-                        Button(action: {
-                            print("location clicked")
-                        }) {
-                            Image(systemName: "location.circle.fill")
-                                .resizable()
-                                .frame(width: 55, height: 55)
-                                .foregroundColor(Color.blue)
-//                                .padding()
-//                                .border(Color.blue, width: 1)
-                        }
-                        Spacer()
-                    }
 //                    .offset(y: geometry.size.height / 2 + 40)
 //                    .border(Color.red, width: 1)
 //                    .border(Color.black, width: 1)
-                    
-                    List {
-                        Picker("Info", selection: $selectedRun) {
-                            Text("Current Pace").tag(Pace.Current)
-                            Text("Current Mile Pace").tag(Pace.CurrentMile)
-                            Text("Average Run Pace").tag(Pace.Average)
-                        }
-                    }
+                                       
 //                    .border(Color.red, width: 1)
                     .frame(height: 100)
                     
