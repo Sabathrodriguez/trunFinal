@@ -21,22 +21,20 @@ struct ContentView: View {
             ZStack {
                 Map()
                     .edgesIgnoringSafeArea(.all)
-                    .sheet(isPresented: $showSheet, content: {
+                    .sheet(isPresented: $showSheet) {
                         VStack {
                             HStack {
                                 HStack {
-                                    Spacer()
                                     Button(action: {
                                         print("search clicked")
                                         
                                     }) {
                                         Image(systemName: "magnifyingglass.circle.fill")
                                             .resizable()
-                                            .foregroundColor(Color.gray)
                                             .frame(width: 55, height: 55)
-                                            .foregroundStyle(.gray)
-                                        //                                .border(Color.gray, width: 1)
-                                        //                                .padding()
+                                            .foregroundColor(Color.gray)
+                                            .padding()
+//                                            .border(Color.gray, width: 1)
                                     }
                                     Spacer()
                                     if let selectedRun {
@@ -46,10 +44,11 @@ struct ContentView: View {
                                             .font(.title2)
                                             .foregroundColor(Color.black)
                                             .bold()
+                                            .frame(width:150, height:55)
+//                                            .border(Color.black, width: 1)
                                     } else {
                                         Text("Select a run type")
                                     }
-                                    
                                     Spacer()
                                     Button(action: {
                                         print("location clicked")
@@ -58,10 +57,9 @@ struct ContentView: View {
                                             .resizable()
                                             .frame(width: 55, height: 55)
                                             .foregroundColor(Color.blue)
-                                        //                                .padding()
-                                        //                                .border(Color.blue, width: 1)
+                                            .padding()
+//                                            .border(Color.blue, width: 1)
                                     }
-                                    Spacer()
                                 }
                             }
                             List {
@@ -71,8 +69,10 @@ struct ContentView: View {
                                     Text("Average Run Pace").tag(Pace.Average)
                                 }
                             }
-                        }.presentationDetents([.height(300)])
-                    })
+                        }
+                        .presentationDetents([.height(300), .height(80), .large])
+                        .interactiveDismissDisabled(true)
+                    }
                 VStack(alignment: .center) {
                     Spacer(minLength: 550)
 //                    .offset(y: geometry.size.height / 2 + 40)
