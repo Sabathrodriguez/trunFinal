@@ -15,70 +15,24 @@ struct ContentView: View {
     // this will need to be updated to retrieve actual run values
     @State private var runTypeDict: [Pace: Double] = [Pace.Average: 1, Pace.Current: 2, Pace.CurrentMile: 3]
     @State var showSheet: Bool = true
+    @State var runningMenuHeight: PresentationDetent = PresentationDetent.height(300)
+    
+    private var runningMenuHeights = Set([PresentationDetent.height(300), PresentationDetent.height(100), PresentationDetent.large])
     
     var body: some View {
         GeometryReader { geometry in
             ZStack {
+                // background map
                 Map()
                     .edgesIgnoringSafeArea(.all)
                     .sheet(isPresented: $showSheet) {
-                        VStack {
-                            HStack {
-                                HStack {
-                                    Button(action: {
-                                        print("search clicked")
-                                        
-                                    }) {
-                                        Image(systemName: "magnifyingglass.circle.fill")
-                                            .resizable()
-                                            .frame(width: 55, height: 55)
-                                            .foregroundColor(Color.gray)
-                                            .padding()
-//                                            .border(Color.gray, width: 1)
-                                    }
-                                    Spacer()
-                                    if let selectedRun {
-                                        let twoDecimalPlaceRun = String(format: "%.2f", runTypeDict[selectedRun]!)
-                                        let twoDecimalPlaceRunArray = twoDecimalPlaceRun.split(separator: ".")
-                                        Text("Running at \(twoDecimalPlaceRunArray[0]):\(twoDecimalPlaceRunArray[1])/mile")
-                                            .font(.title2)
-                                            .foregroundColor(Color.black)
-                                            .bold()
-                                            .frame(width:150, height:55)
-//                                            .border(Color.black, width: 1)
-                                    } else {
-                                        Text("Select a run type")
-                                    }
-                                    Spacer()
-                                    Button(action: {
-                                        print("location clicked")
-                                    }) {
-                                        Image(systemName: "location.circle.fill")
-                                            .resizable()
-                                            .frame(width: 55, height: 55)
-                                            .foregroundColor(Color.blue)
-                                            .padding()
-//                                            .border(Color.blue, width: 1)
-                                    }
-                                }
-                            }
-                            List {
-                                Picker("Info", selection: $selectedRun) {
-                                    Text("Current Pace").tag(Pace.Current)
-                                    Text("Current Mile Pace").tag(Pace.CurrentMile)
-                                    Text("Average Run Pace").tag(Pace.Average)
-                                }
-                            }
-                        }
-                        .presentationDetents([.height(300), .height(80), .large])
+                        RunView(selectedRun: $selectedRun, runTypeDict: $runTypeDict, runningMenuHeight: $runningMenuHeight)
+                            .presentationDetents(runningMenuHeights, selection: $runningMenuHeight)
                         .interactiveDismissDisabled(true)
                     }
                 VStack(alignment: .center) {
                     Spacer(minLength: 550)
 //                    .offset(y: geometry.size.height / 2 + 40)
-//                    .border(Color.red, width: 1)
-//                    .border(Color.black, width: 1)
-                                       
 //                    .border(Color.red, width: 1)
                     .frame(height: 100)
                     
@@ -96,11 +50,6 @@ struct ContentView: View {
             }
         }
     }
-}
-
-enum Pace {
-    case Current, CurrentMile, Average
-    var id: Self {self}
 }
 
 #Preview {
