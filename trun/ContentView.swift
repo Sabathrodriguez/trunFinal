@@ -17,16 +17,23 @@ struct ContentView: View {
     @State var showSheet: Bool = true
     @State var runningMenuHeight: PresentationDetent = PresentationDetent.height(300)
     
+    @StateObject var viewModel: ContentViewModel = ContentViewModel()
+    
     private var runningMenuHeights = Set([PresentationDetent.height(300), PresentationDetent.height(100), PresentationDetent.large])
+    
     
     var body: some View {
         GeometryReader { geometry in
             ZStack {
                 // background map
-                Map()
+                Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
                     .edgesIgnoringSafeArea(.all)
+                    .onAppear {
+                        viewModel.checkIfLocationServicesEnabled()
+                    }
                     .sheet(isPresented: $showSheet) {
-                        RunView(selectedRun: $selectedRun, runTypeDict: $runTypeDict, runningMenuHeight: $runningMenuHeight)
+                        RunView(selectedRun: $selectedRun, runTypeDict: $runTypeDict, runningMenuHeight: $runningMenuHeight, userRegion: viewModel)
+                            .presentationBackgroundInteraction(.enabled)
                             .presentationDetents(runningMenuHeights, selection: $runningMenuHeight)
                         .interactiveDismissDisabled(true)
                     }

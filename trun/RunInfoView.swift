@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import MapKit
 
 struct RunInfoView: View {
     @Binding var selectedRun: Pace?
@@ -15,6 +16,8 @@ struct RunInfoView: View {
     
     @State var searchWasClicked = false
     @State var searchField: String = ""
+    
+    @ObservedObject var region: ContentViewModel
         
     var body: some View {
         
@@ -41,6 +44,7 @@ struct RunInfoView: View {
                         
                         Button("Cancel", action: {
                             searchWasClicked = false
+                            runningMenuHeight = .height(300)
                         })
                         .padding(Edge.Set([.trailing]))
                     } else {
@@ -71,6 +75,7 @@ struct RunInfoView: View {
                     // this will locate the user based on the phone gps
                     Button(action: {
                         print("location clicked")
+                        region.checkLocationAuthorization()
                     }) {
                         Image(systemName: "location.circle.fill")
                             .resizable()
