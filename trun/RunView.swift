@@ -11,16 +11,21 @@ struct RunView: View {
     @Binding var selectedRun: Pace?
     @Binding var runTypeDict: [Pace: Double]
     @Binding var runningMenuHeight: PresentationDetent
+    @Binding var searchWasClicked: Bool
     @ObservedObject var userRegion: ContentViewModel
     
     
     var body: some View {
         VStack {
             // running info
-            RunInfoView(selectedRun: $selectedRun, runTypeDict: $runTypeDict, runningMenuHeight: $runningMenuHeight, region: userRegion)
+            RunInfoView(selectedRun: $selectedRun, runTypeDict: $runTypeDict, runningMenuHeight: $runningMenuHeight, searchWasClicked: $searchWasClicked, region: userRegion)
             
             // this allows the user to select what to display as far as running information
-            RunListView(selectedRun: $selectedRun, runTypeDict: $runTypeDict)
+            if (runningMenuHeight == .large) {
+                RunListView(selectedRun: $selectedRun, runTypeDict: $runTypeDict)
+            } else {
+                Spacer()
+            }
         }
     }
 }
