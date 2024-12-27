@@ -12,7 +12,7 @@ struct RunView: View {
     @Binding var runTypeDict: [Pace: Double]
     @Binding var runningMenuHeight: PresentationDetent
     @Binding var searchWasClicked: Bool
-    @ObservedObject var userRegion: ContentViewModel
+    @ObservedObject var userRegion: UserLocation
     
     
     var body: some View {

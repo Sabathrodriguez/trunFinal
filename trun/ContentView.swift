@@ -14,14 +14,13 @@ struct ContentView: View {
     @State private var selectedRun: Pace? = .CurrentMile
     // this will need to be updated to retrieve actual run values
     @State private var runTypeDict: [Pace: Double] = [Pace.Average: 1, Pace.Current: 2, Pace.CurrentMile: 3]
-    @State var showSheet: Bool = true
+    @State private var showSheet: Bool = true
     @State var runningMenuHeight: PresentationDetent = PresentationDetent.height(250)
     @State var searchWasClicked: Bool = false
     
-    @StateObject var viewModel: ContentViewModel = ContentViewModel()
+    @StateObject var viewModel: UserLocation = UserLocation()
     
-    private var runningMenuHeights = Set([PresentationDetent.height(250), PresentationDetent.height(100), PresentationDetent.large])
-    
+    private var runningMenuHeights = Set([PresentationDetent.height(250), PresentationDetent.height(100), PresentationDetent.large])    
     
     var body: some View {
         GeometryReader { geometry in

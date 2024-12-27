@@ -8,7 +8,7 @@
 import MapKit
 import SwiftUI
 
-final class ContentViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
+final class UserLocation: NSObject, ObservableObject, CLLocationManagerDelegate {
     var locationManager: CLLocationManager?
     
     @Published var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.78, longitude: -122.41), span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1))
