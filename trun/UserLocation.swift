@@ -13,6 +13,8 @@ final class UserLocation: NSObject, ObservableObject, CLLocationManagerDelegate 
     
     @Published var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.78, longitude: -122.41), span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1))
     
+    @Published var regionView = MapCameraPosition.userLocation(fallback: .automatic)
+    
     func checkIfLocationServicesEnabled() {
         if !CLLocationManager.locationServicesEnabled() {
             //TODO: show an alert if services are not enabled
@@ -30,6 +32,7 @@ final class UserLocation: NSObject, ObservableObject, CLLocationManagerDelegate 
         switch locationManager.authorizationStatus {
             case .authorizedWhenInUse, .authorizedAlways:
                 region = MKCoordinateRegion(center: locationManager.location!.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+                regionView = MapCameraPosition.region(MKCoordinateRegion(center: locationManager.location!.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)))
                     break
             case .denied, .restricted, .notDetermined:
                     break
@@ -42,4 +45,7 @@ final class UserLocation: NSObject, ObservableObject, CLLocationManagerDelegate 
         checkLocationAuthorization()
     }
     
+    func centerOnUser() {
+            regionView = .userLocation(fallback: .automatic)
+        }
 }
